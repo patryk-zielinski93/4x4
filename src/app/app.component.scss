@@ -1,0 +1,22 @@
+.game-board {
+  display: flex;
+  width: 500px;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 160px auto;
+  background: white;
+}
+
+.game-field {
+  display: flex;
+  position: relative;
+  width: 25%;
+  height: 125px;
+  border: 1px red solid;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  font-size: 50px;
+  color: #0f0f0f;
+}
