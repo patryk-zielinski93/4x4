@@ -26,7 +26,7 @@ export class MoveService {
   decision(fields: string[]): number {
     this.fields = fields;
 
-    let decision = -1;
+    let decision;
 
     decision = this.goForRow();
     if (decision !== -1) {
@@ -40,10 +40,27 @@ export class MoveService {
       return decision;
     }
 
+    decision = this.smartMove();
+    if (decision !== -1) {
+      return decision;
+    }
+
     decision = this.randomMove();
     if (decision !== -1) {
       return decision;
     }
+  }
+
+  private checkArrAmounts() {
+    let amt = 0;
+
+    for (let i = this.fields.length - 1; i >= 0; i--) {
+      if (this.fields[i] === 'X' || this.fields[i] === 'O') {
+        amt++;
+      }
+    }
+
+    return amt;
   }
 
   private checkLosingRow(row: Row): number {
@@ -144,11 +161,25 @@ export class MoveService {
     return -1;
   }
 
-  private randomMove() {
+  private randomMove(): number {
     for (let i = this.fields.length - 1; i >= 0; i--) {
       if (this.fields[i] === '') {
         return i;
       }
     }
+  }
+
+  private smartMove(): number {
+    const amt = this.checkArrAmounts();
+
+    if (amt < 2) {
+      if (this.fields[5] === '') {
+        return 5;
+      } else {
+        return 6;
+      }
+    }
+
+    return -1;
   }
 }

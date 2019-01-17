@@ -1,3 +1,11 @@
+<div class="options">
+  <button mat-raised-button
+          color="primary"
+          (click)="start()">
+    Start
+  </button>
+</div>
+
 <div class="game-board">
   <button class="game-field"
           *ngFor="let item of (fields | async) | keyvalue:order; trackBy: trackByKey"

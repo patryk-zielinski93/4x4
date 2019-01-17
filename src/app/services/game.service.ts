@@ -32,13 +32,7 @@ export class GameService {
     } else if (this.winService.checkTie(this.fields)) {
       console.log('tie');
     } else {
-      this.computerMove(this.moveService.decision(this.fields));
-    }
-  }
-
-  start(): void {
-    if (this.gameStarted) {
-      return;
+      this.computerMove();
     }
   }
 
@@ -59,14 +53,22 @@ export class GameService {
   setHumanSymbol(symbol: PlayerSymbol): void {
     this.optionsService.humanSymbol = symbol;
     this.optionsService.computerSymbol = symbol === PlayerSymbol.O ? PlayerSymbol.X : PlayerSymbol.O;
+  }
+
+  start(): void {
+    if (this.gameStarted) {
+      return;
+    }
+
+    this.gameStarted = true;
 
     if (this.optionsService.firstPlayer === Player.Computer) {
-      this.computerMove(5);
+      this.computerMove();
     }
   }
 
-  private computerMove(num: number): void {
-    this.placeMove(num, this.optionsService.computerSymbol);
+  private computerMove(): void {
+    this.placeMove(this.moveService.decision(this.fields), this.optionsService.computerSymbol);
 
     const winnerFields = this.winService.checkWin(this.fields);
 

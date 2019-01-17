@@ -27,6 +27,10 @@ export class AppComponent implements OnInit {
     return a.key > b.key;
   }
 
+  start(): void {
+    this.gameService.start();
+  }
+
   trackByKey(a: KeyValue<number, string>): number {
     return a.key;
   }
