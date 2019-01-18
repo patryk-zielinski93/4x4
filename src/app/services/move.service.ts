@@ -30,13 +30,11 @@ export class MoveService {
 
     decision = this.goForRow();
     if (decision !== -1) {
-      console.log('goForRow');
       return decision;
     }
 
     decision = this.preemptiveBlock();
     if (decision !== -1) {
-      console.log('preemptiveBlock');
       return decision;
     }
 

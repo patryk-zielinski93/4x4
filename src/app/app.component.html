@@ -37,17 +37,20 @@
     <button mat-raised-button
             color="primary"
             class="start-button"
-            type="submit">
+            type="submit"
+            [disabled]="gameStarted">
       Start
     </button>
   </div>
 </form>
 
-<div class="game-board">
+<div class="game-board"
+     [ngClass]="getGameEndResultClass()">
   <button class="game-field"
+          [ngClass]="{'winner-field': isWinnerField(item.key)}"
           *ngFor="let item of (fields$ | async) | keyvalue:order; trackBy: trackByKey"
-          (click)="checkField(item.key)"
-          [disabled]="!!item.value"
+          (click)="humanMove(item.key)"
+          [disabled]="!!item.value || !!gameEnd || !gameStarted"
           matRipple>
     {{ item.value }}
   </button>

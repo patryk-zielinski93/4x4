@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { GameResult } from '../enums/game-result.enum';
 import { PlayerSymbol } from '../enums/player-symbol.enum';
 import { Player } from '../enums/player.enum';
+import { GameEnd } from '../interfaces/game-end.interface';
+import { Row } from '../types/row.type';
 import { MoveService } from './move.service';
 import { OptionsService } from './options.service';
 import { WinService } from './win.service';
@@ -11,6 +14,7 @@ import { WinService } from './win.service';
 })
 export class GameService {
   fields$ = new BehaviorSubject<string[]>([]);
+  gameEnd$ = new Subject<GameEnd>();
   gameStarted$ = new BehaviorSubject<boolean>(false);
   private fields: string[];
   private gameStarted = false;
@@ -26,13 +30,7 @@ export class GameService {
 
     this.placeMove(num, this.optionsService.humanSymbol);
 
-    const winnerFields = this.winService.checkWin(this.fields);
-
-    if (winnerFields.length > 0) {
-      console.log('win', winnerFields);
-    } else if (this.winService.checkTie(this.fields)) {
-      console.log('tie');
-    } else {
+    if (!this.checkEndGame(Player.Human)) {
       this.computerMove();
     }
   }
@@ -71,21 +69,34 @@ export class GameService {
     }
   }
 
-  private computerMove(): void {
-    this.placeMove(this.moveService.decision(this.fields), this.optionsService.computerSymbol);
-
+  private checkEndGame(player: Player): boolean {
     const winnerFields = this.winService.checkWin(this.fields);
 
     if (winnerFields.length > 0) {
-      console.log('win', winnerFields);
+      this.gameEnd$.next({
+        result: player === Player.Human ? GameResult.Win : GameResult.Lose,
+        winnerFields: winnerFields as Row || undefined
+      });
+
+      return true;
     } else if (this.winService.checkTie(this.fields)) {
-      console.log('tie');
+      this.gameEnd$.next({
+        result: GameResult.Tie
+      });
+
+      return true;
     }
+
+    return false;
+  }
+
+  private computerMove(): void {
+    this.placeMove(this.moveService.decision(this.fields), this.optionsService.computerSymbol);
+    this.checkEndGame(Player.Computer);
   }
 
   private placeMove(num: number, symbol: PlayerSymbol): void {
     this.fields.splice(num, 1, symbol);
-    console.log(this.fields);
     this.fields$.next(this.fields);
   }
 }
