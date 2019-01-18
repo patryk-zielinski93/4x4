@@ -50,8 +50,13 @@
           [ngClass]="{'winner-field': isWinnerField(item.key)}"
           *ngFor="let item of (fields$ | async) | keyvalue:order; trackBy: trackByKey"
           (click)="humanMove(item.key)"
-          [disabled]="!!item.value || !!gameEnd || !gameStarted"
+          [disabled]="!!item.value || (turn$ | async) === player.Computer || !!gameEnd || !gameStarted"
           matRipple>
     {{ item.value }}
   </button>
+</div>
+
+<div class="info">
+  <h3 class="info__header" *ngIf="(turn$ | async) === player.Computer">Czekaj na ruch komputera.</h3>
+  <h3 class="info__header" *ngIf="(turn$ | async) === player.Human">Twój ruch!</h3>
 </div>

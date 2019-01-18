@@ -16,6 +16,7 @@ export class GameService {
   fields$ = new BehaviorSubject<string[]>([]);
   gameEnd$ = new Subject<GameEnd>();
   gameStarted$ = new BehaviorSubject<boolean>(false);
+  turn$ = new Subject<Player>();
   private fields: string[];
   private gameStarted = false;
 
@@ -31,6 +32,7 @@ export class GameService {
     this.placeMove(num, this.optionsService.humanSymbol);
 
     if (!this.checkEndGame(Player.Human)) {
+      this.turn$.next(Player.Computer);
       this.computerMove();
     }
   }
@@ -63,6 +65,7 @@ export class GameService {
 
     this.gameStarted = true;
     this.gameStarted$.next(this.gameStarted);
+    this.turn$.next(this.optionsService.firstPlayer);
 
     if (this.optionsService.firstPlayer === Player.Computer) {
       this.computerMove();
@@ -91,8 +94,11 @@ export class GameService {
   }
 
   private computerMove(): void {
-    this.placeMove(this.moveService.decision(this.fields), this.optionsService.computerSymbol);
-    this.checkEndGame(Player.Computer);
+    this.moveService.serverDecision(this.fields, this.optionsService.computerSymbol).subscribe(move => {
+      this.placeMove(move, this.optionsService.computerSymbol);
+      this.checkEndGame(Player.Computer);
+      this.turn$.next(Player.Human);
+    });
   }
 
   private placeMove(num: number, symbol: PlayerSymbol): void {

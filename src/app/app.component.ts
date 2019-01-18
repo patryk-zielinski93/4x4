@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   optionsForm: FormGroup;
   player = Player;
   playerSymbol = PlayerSymbol;
+  turn$ = this.gameService.turn$;
 
   constructor(private fb: FormBuilder, private gameService: GameService, private snack: MatSnackBar) {
   }
