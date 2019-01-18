@@ -11,6 +11,7 @@ import { WinService } from './win.service';
 })
 export class GameService {
   fields$ = new BehaviorSubject<string[]>([]);
+  gameStarted$ = new BehaviorSubject<boolean>(false);
   private fields: string[];
   private gameStarted = false;
 
@@ -37,6 +38,8 @@ export class GameService {
   }
 
   reset(): void {
+    this.gameStarted = false;
+    this.gameStarted$.next(this.gameStarted);
     this.fields = [];
 
     for (let i = 0; i < 16; i++) {
@@ -61,6 +64,7 @@ export class GameService {
     }
 
     this.gameStarted = true;
+    this.gameStarted$.next(this.gameStarted);
 
     if (this.optionsService.firstPlayer === Player.Computer) {
       this.computerMove();

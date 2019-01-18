@@ -1,14 +1,51 @@
-<div class="options">
-  <button mat-raised-button
-          color="primary"
-          (click)="start()">
-    Start
-  </button>
-</div>
+<form (ngSubmit)="start()"
+      [formGroup]="optionsForm">
+  <div class="options">
+
+    <div class="option">
+      <h3 class="option__header">Który symbol wybierasz?</h3>
+      <mat-radio-group formControlName="humanSymbol">
+        <mat-radio-button class="option__radio-button"
+                          [value]="playerSymbol.O">
+          O
+        </mat-radio-button>
+
+        <mat-radio-button class="option__radio-button"
+                          [value]="playerSymbol.X">
+          X
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="option">
+      <h3 class="option__header">Kto zaczyna?</h3>
+      <mat-radio-group formControlName="firstPlayer">
+        <mat-radio-button class="option__radio-button"
+                          [value]="player.Computer">
+          <mat-icon>computer</mat-icon>
+          Komputer
+        </mat-radio-button>
+
+        <mat-radio-button class="option__radio-button"
+                          [value]="player.Human">
+          <mat-icon>person</mat-icon>
+          Użytkownik
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <button mat-raised-button
+            color="primary"
+            class="start-button"
+            type="submit">
+      Start
+    </button>
+  </div>
+</form>
 
 <div class="game-board">
   <button class="game-field"
-          *ngFor="let item of (fields | async) | keyvalue:order; trackBy: trackByKey"
+          *ngFor="let item of (fields$ | async) | keyvalue:order; trackBy: trackByKey"
           (click)="checkField(item.key)"
           [disabled]="!!item.value"
           matRipple>

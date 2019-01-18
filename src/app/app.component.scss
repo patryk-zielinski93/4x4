@@ -4,7 +4,7 @@
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin: 160px auto;
+  margin: 60px auto;
   background: white;
 }
 
@@ -24,6 +24,32 @@
 .options {
   display: flex;
   width: 600px;
-  flex-direction: row;
-  margin: 30px auto;
+  flex-direction: column;
+  margin: 20px auto;
+}
+
+.option {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.option__header {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.option__radio-button {
+  margin-right: 40px;
+
+  mat-icon {
+    margin-right: 10px;
+  }
+
+  &::ng-deep {
+    .mat-radio-label-content {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }

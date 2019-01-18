@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatRippleModule, MatSnackBarModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatIconModule, MatRadioModule, MatRippleModule, MatSnackBarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -10,9 +11,12 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     MatRippleModule,
+    MatRadioModule,
     MatButtonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

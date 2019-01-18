@@ -32,6 +32,7 @@ footer, header, hgroup, menu, nav, section {
 }
 
 body {
+  font-family: 'Roboto', sans-serif;
   line-height: 1;
 }
 
@@ -54,8 +55,12 @@ table {
   border-spacing: 0;
 }
 
+
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 * {
   box-sizing: border-box;
 }
 
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
